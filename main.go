@@ -8,9 +8,18 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		//fmt.Fprint(w, "Hola mundo")
-		http.Redirect(w, r, "/dos", http.StatusMovedPermanently) //301
+		fmt.Println(w, "Hola mundo, el metodo usado es:"+r.Method)
+
+		switch r.Method {
+		case "GET":
+			fmt.Fprint(w, "Mundo, el metodo usado es:"+r.Method)
+		case "POST":
+			fmt.Fprint(w, "Metodo POST")
+		default:
+			http.Error(w, "Metodo no soportado", http.StatusMethodNotAllowed)
+		}
 	})
+
 	http.HandleFunc("/dos", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprint(w, "Hola mundo, dos")
 	})
