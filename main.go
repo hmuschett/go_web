@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/tres", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(w, "Hola mundo, el metodo usado es:"+r.Method)
 
 		switch r.Method {
