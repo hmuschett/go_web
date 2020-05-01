@@ -4,27 +4,30 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+
+	"./mux"
 )
 
+type User struct {
+	name string
+}
+
+func (this *User) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "hola usuario "+this.name)
+}
+func hola(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "hola desde una funcion anonima")
+}
 func main() {
-	http.HandleFunc("/tres", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println(w, "Hola mundo, el metodo usado es:"+r.Method)
-
-		switch r.Method {
-		case "GET":
-			fmt.Fprint(w, "Mundo, el metodo usado es:"+r.Method)
-		case "POST":
-			fmt.Fprint(w, "Metodo POST")
-		default:
-			http.Error(w, "Metodo no soportado", http.StatusMethodNotAllowed)
-		}
-	})
-
-	http.HandleFunc("/dos", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hola mundo, dos")
-	})
+	user := &User{"henry"}
+	mux := mux.CreateMux()
+	mux.AddFun("/hola", hola)
+	mux.AddHandle("/user", user)
+	/* http.HandleFunc("/dos", func(w http.ResponseWriter, r *http.Request) {
+	 	fmt.Fprint(w, "Hola mundo, dos")
+	 })
 	http.HandleFunc("/notFound", func(w http.ResponseWriter, r *http.Request) {
 		http.NotFound(w, r)
-	})
-	log.Fatal(http.ListenAndServe("localhost:3000", nil))
+	})*/
+	log.Fatal(http.ListenAndServe("localhost:3000", mux))
 }

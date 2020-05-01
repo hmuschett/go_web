@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>holla {{.UserName}}</h1>
+    {{if (ne .Age 22)}}
+        <p>tiene menos de 22</p>
+    {{else }}
+        <p>es mayor que 22</p>
+    {{end}}
+        
+    {{with $newVar := "desde una variable"}}
+        <p>{{$newVar}}</p>
+    {{end}} 
+    <ul>
+        {{range .Tags}}
+            <li>{{.}}</li>
+        {{end}}
+    </ul>
+
+    <ul>
+        {{range .Cursos}}
+            <li>el curso {{.Name}} dura {{.Time}}</li>
+        {{end}}
+    </ul>
+
+    {{template "footer"}}
+</body>
+</html>
