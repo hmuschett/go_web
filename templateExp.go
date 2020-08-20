@@ -1,9 +1,11 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 )
 
 type Curso struct {
@@ -46,6 +48,11 @@ func renderPage(w http.ResponseWriter, page string, data interface{}) {
 	}
 }
 func main() {
+	path, err := os.Getwd()
+	if err != nil {
+		log.Println(err)
+	}
+	fmt.Println(path)
 
 	http.HandleFunc("/hola", func(w http.ResponseWriter, r *http.Request) {
 		renderPage(w, "index.html", nil)
